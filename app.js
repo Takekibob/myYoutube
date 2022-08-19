@@ -103,7 +103,6 @@ app.post('/register', async(req,res,next)=>{
             if(results.length>0){ res.redirect('/userAlreadyExists') }
             else{
                 console.log("Inside post");
-                console.log(req.files);
                 console.log(req.body.name);
                 console.log(req.body.email);
                 console.log(req.body.password);
@@ -111,15 +110,27 @@ app.post('/register', async(req,res,next)=>{
                 const hash= crypto.pbkdf2Sync(req.body.password,salt,10000,60,'sha512').toString('hex');
                 console.log(salt);
                 console.log(hash);
-
                 connection.query('Insert into users(name,email,hash,salt,isAdmin) values(?,?,?,?,0) ', [req.body.name,req.body.email,hash,salt], function(error, results, fields) {
                 if (error){
                     console.log("ERROR");
                     console.log(error);
                 }
-                else { console.log("Successfully Entered"); }
+                else {
+                    if(req.files){
+                        connection.query('Insert into pictures(user_id,name,data) values((Select id from users where email = ?),?,?) ', [req.body.email, req.files.img.name, req.files.img.data], function(error, results, fields) {
+                            if(error){
+                                console.log("IMG_ERROR");
+                                console.log(error);
+                                res.redirect('/login');
+                            }
+                            else{
+                                res.redirect('/login');
+                            }
+                        });
+                    }
+                    console.log("Successfully Entered");
+                }
             });
-            res.redirect('/login');
             }
         }
     });
