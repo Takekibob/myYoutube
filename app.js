@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 const mySQL = require("mysql");
 const crypto = require("crypto");
@@ -11,6 +12,7 @@ const app = express();
 const env = process.env.NODE_ENV || 'development';
 const db = require('./config/db')[env];
 const fileUpload = require('express-fileupload');
+const nodemailer = require('nodemailer');
 // const route = require("./router/route");
 
 console.log(db.database);
@@ -83,6 +85,16 @@ passport.deserializeUser((userId,done)=>{
     });
 });
 
+let transport = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: process.env.MAIL_SECURE,
+    auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS
+    }
+});
+
 /*routes*/
 app.get('/', (req, res, next) => {
     res.render("index");
@@ -116,6 +128,23 @@ app.post('/register', async(req,res,next)=>{
                     console.log(error);
                 }
                 else {
+
+
+                    const mailOptions = {
+                        from: process.env.MAIL_USER, // アプリのメールアドレス
+                        to: req.body.email, // 相手のメールアドレス
+                        subject: 'メールの確認', //タイトル
+                        html: '<h2 style="color:#ff6600;">Hello World!,Welcome to NotALone!</h2>',
+                    };
+
+                    transport.sendMail(mailOptions, function(err, info) {
+                        if (err) {
+                            console.log(err)
+                        } else {
+                            console.log(info);
+                        }
+                    });
+
                     if(req.files){
                         connection.query('Insert into pictures(user_id,name,data) values((Select id from users where email = ?),?,?) ', [req.body.email, req.files.img.name, req.files.img.data], function(error, results, fields) {
                             if(error){
