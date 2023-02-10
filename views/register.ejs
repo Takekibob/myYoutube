@@ -1,36 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-  <% include('./partials/header') %>
+  <% var rootPath = './'; %>
+  <%- include(rootPath + 'partials/header'); %>
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
   <link rel="stylesheet" href="../stylesheets/style.css">
-<body>
+
+
+
+<body class="text-center" style="margin-top: 50px;">
   <form action='register' method='post' enctype="multipart/form-data">
     <div class="container logindiv">
-        <h1>Register</h1>
+        <h1 class="font-weight-bold" >Register</h1>
         <% if(notExist){ %>
           <p>something was wrong</p>
         <%}%>
         <div>
-          <input type="file" name="img" >
+          <input type="file" style="border: 1px solid #ccc; display: inline-block; padding: 6px 12px; cursor: pointer;" name="img" >
       </div>
         <div>
-            <label>Name : </label>
-            <input type="text" placeholder="Enter Your Name" name="name" required>
+            <label>Name</label>
+            <input type="text" placeholder="Enter Your Name" class="form-control" style="width: 30%; display: inline;" name="name" required>
         </div>
         <div>
-            <label>Email : </label>
-            <input type="text" placeholder="Enter Email" name="email" required>
+            <label>Email</label>
+            <input type="email" placeholder="Enter Password" class="form-control" style="width: 30%; display: inline;" name="email" required>
         </div>
         <div>
-            <label>Password : </label>
-            <input type="password" placeholder="Enter Password" name="password" required>
+            <label>Password</label>
+            <input type="password" placeholder="Enter Password" class="form-control" style="width: 30%; display: inline;" name="password" required>
         </div>
         <p>
             Already a member ?<a href="/login"> Go and log in </a>
         </p>
       <div>
-        <button type="submit">Register</button>
+        <button class="btn btn-brown" type="submit">Register</button>
       </div>
     </div>
 </form>
 </body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js">
+	WebFont.load({
+		google: {
+			families: ['Tangerine']
+		}
+	});
+</script>
 </html>

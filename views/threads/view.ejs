@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% var rootPath = '../'; %>
+  <%- include(rootPath + 'partials/header'); %>
+  <link rel="stylesheet" href="../stylesheets/style.css">
+<body>
+  <a href="#" onclick="javascript:window.history.back(-1);return false;">Back</a>
+  <p>
+      <h1><%= thread[0].title %></h1>
+      <p><%= thread[0].content %></p>
+      <p><%= thread[0].userName %></p>
+      <button><a href=<%= "/threads/edit/" + thread[0].id %>>編集用のボタン</a></button>
+      <% if(thread[0].userId !== userId){%>
+        <button><a href=<%= "/follows/" + thread[0].userId %>>フォローする</a></button>
+      <%} %>
+      <% if(!didGood){ %>
+        <form action=<%= "/goods/thread_create/" + thread[0].id %> method="post">
+          <button>いいね</button>
+        </form>
+      <%} else{ %>
+        <form action=<%= "/goods/thread_destroy/" + thread[0].id %> method="post">
+          <button>いいねを消す</button>
+        </form>
+      <% } %>
+
+
+
+
+  </p>
+  <form action=<%= "/threads/update/"+thread[0].id %> method='post'>
+    <h1>コメントの投稿</h1>
+    <div>
+        <label>内容 : </label>
+        <textarea name="content" required ></textarea>
+    </div>
+
+  <button formaction=<%=  "/comments/create/"+thread[0].id %> type="submit">追加</button>
+</form>
+
+<% comments.forEach(comment => { %>
+  <p><%= comment.content %></p>
+  <p><%= comment.userName %></p>
+  <p><%= comment.user_id %></p>
+  <% if(comment.user_id === userId){%>
+
+  <button><a href=<%= "/comments/edit/" + comment.id %>>コメント編集用のボタン</a></button>
+  <% };%>
+  <% if(!commentArray.includes(comment.id)){%>
+    <form action=<%= "/goods/comment_create/"+ thread[0].id +"/" + comment.id %> method="post">
+      <button>いいね</button>
+    </form>
+  <% }else{%>
+    <form action=<%= "/goods/comment_destroy/"+ thread[0].id +"/" + comment.id %> method="post">
+      <button>いいねを取り消す</button>
+    </form>
+  <% }%>
+<% }); %>
+</body>
+</html>

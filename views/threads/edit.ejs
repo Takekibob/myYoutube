@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% var rootPath = '../'; %>
+  <%- include(rootPath + 'partials/header'); %>
+  <link rel="stylesheet" href="../stylesheets/style.css">
+<body>
+  <form action=<%= "/threads/update/" + thread[0].id %> method='post'>
+      <h1 >投稿の更新</h1>
+      <div>
+          <label>題名 : </label>
+          <input type="text"  value="<%= thread[0].title %>" name="title" required>
+      </div>
+      <div>
+          <label>内容 : </label>
+          <textarea name="content" required ><%= thread[0].content %></textarea>
+      </div>
+
+        <button formaction=<%=  "/threads/update/"+thread[0].id %> type="submit">更新</button>
+  </form>
+</body>
+</html>

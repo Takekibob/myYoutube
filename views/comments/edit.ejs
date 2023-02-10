@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% var rootPath = '../'; %>
+  <%- include(rootPath + 'partials/header'); %>
+  <link rel="stylesheet" href="../stylesheets/style.css">
+<body>
+  <form action=<%= "/comments/update/" + comment[0].id %> method='post'>
+      <h1>コメントの更新</h1>
+      <div>
+          <label>内容 : </label>
+          <textarea name="content" required ><%= comment[0].content %></textarea>
+      </div>
+        <button formaction=<%=  "/comments/update/"+ comment[0].thread_id +"/" + comment[0].id %> type="submit">更新</button>
+</form>
+</body>
+</html>

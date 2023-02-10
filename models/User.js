@@ -1,23 +1,25 @@
-import mysql from 'mysql';
-const env = process.env.NODE_ENV || 'development';
-import db from './config/db'
-const dbEnv = db[env];
-const table = 'users';
-
-module.exports = {
-
-  getUser: function () {
-    return new Promise ((resolve, reject) => {
-      const con = mysql.createConnection(dbEnv);
-      con.query(
-        `select id, name, date_format(birthdate,"%Y/%m/%d") as birthdate from ${table}`,  (err, result, fields) => {
-          if ( err ) {
-            reject(err);
-          } else {
-            resolve(result);
-          }
-        });
-      con.end();
-    });
-  },
-}
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  }
+  User.init({
+    firstName: DataTypes.STRING,
+    lastName: DataTypes.STRING,
+    email: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'User',
+  });
+  return User;
+};
