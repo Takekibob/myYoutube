@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <% include('./partials/header') %>
+  <% var rootPath = './'; %>
+  <%- include(rootPath + 'partials/header'); %>
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
   <link rel="stylesheet" href="../stylesheets/style.css">
+  <body class="text-center" style="margin-top: 50px;">
 
-<body>
-  <form action='/login' method='post'>
-      <h1>Login</h1>
+  <form action='/login' method='post' >
+    <h1 style="@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap'); font-family: 'Space Mono', monospace;">NotAlone</h1>
+    <br />
+      <h2>Login</h2>
       <div>
-          <label>Email : </label>
-          <input type="text" placeholder="Enter Email" name="email" required>
+          <input type="text" placeholder="Enter Email" class="form-control" style="width: 30%; display: inline;" name="email" required>
       </div>
       <div>
-          <label>Password : </label>
-          <input type="password" placeholder="Enter Password" name="password" required>
+          <input type="password" placeholder="Enter Password" class="form-control" style="width: 30%; display: inline;" name="password" required>
       </div>
+
 
         <p>
         Not a member yet ? <a href="/register">Join us</a>
         </p>
 
-    <button formaction="/login" type="submit">Login</button>
+    <button formaction="/login"  class="btn btn-brown" type="submit">Login</button>
 </form>
 </body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+
 </html>

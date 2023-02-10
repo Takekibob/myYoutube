@@ -1,0 +1,11 @@
+{
+  "development": {
+    "username": "root",
+    "password": "toor",
+    "database": "my_youtube",
+    "host": "localhost",
+    "dialect": "mysql",
+    "storage": "/Applications/MAMP/tmp/mysql/mysql.sock",
+    "port": 8889
+  }
+}

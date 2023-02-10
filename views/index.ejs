@@ -1,9 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-  <% include('./partials/header') %>
+  <% var rootPath = './'; %>
+  <%- include(rootPath + 'partials/header'); %>
   <link rel="stylesheet" href="../stylesheets/style.css">
 <body>
-  <h1>Hi I'm Takeki Harada</h1>
-  <p>Please register from <a href="/register">here</a></p>
+  <%- include(rootPath + 'partials/nav'); %>
+  <% if(!userId){%>
+    <h1 style="color: #B7C4CF">Not Aloneへようこそ</h1>
+    <p>新規登録は <a href="/register">こちらから</a></p>
+  <% } else{%>
+    <h1 style="color: #99A799">Not Alone</h1>
+    <p>健康について議論、記録するプラットフォーム</p>
+    <button type="button" class="btn btn-brown"><a href="/threads/add">投稿用のボタン</a></button>
+  <% } %>
+  <p>
+    <% threads.forEach(thread => { %>
+      <h1 style="color: #E3CAA5;"><%= thread.title %></h1>
+      <p ><%= thread.content %></p>
+      <button class="btn btn-brown"><a href=<%= "/threads/view/" + thread.id %>>詳細ページを見る</a></button>
+      <% if(thread.user_id === userId){%>
+        <button class="btn btn-brown"><a href=<%= "/threads/edit/" + thread.id %>>編集用のボタン</a></button>
+      <% } %>
+
+    <% }); %>
+  </p>
 </body>
 </html>

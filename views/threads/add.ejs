@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% var rootPath = '../'; %>
+  <%- include(rootPath + 'partials/header'); %>
+  <link rel="stylesheet" href="../stylesheets/style.css">
+<body>
+  <form action='/threads/create' method='post'>
+      <h1>スレッドの投稿</h1>
+      <div>
+          <label>題名 : </label>
+          <input type="text" placeholder="タイトル" name="title" required>
+      </div>
+      <div>
+          <label>内容 : </label>
+          <textarea name="content" cols="40" rows="4" required></textarea>
+      </div>
+
+    <button formaction="/threads/create" type="submit">投稿</button>
+</form>
+</body>
+</html>

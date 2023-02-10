@@ -1,84 +1,51 @@
-var express = require('express');
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-/*routes*/
-router.get('/', (req, res, next) => {
-     res.send('<h1>Home</h1><p>Please <a href="/register">register</a></p>');
-});
+// ここまで追加
+// Require controller modules.
+const admin_controller = require("../controllers/adminController");
+const comment_controller = require("../controllers/commentController");
+const follow_controller = require("../controllers/followController");
+const good_controller = require("../controllers/goodController");
+const thread_controller = require("../controllers/threadController");
+const user_controller = require("../controllers/userController");
 
-router.get('/login', (req, res, next) => {
-      res.render('login')
- });
- router.get('/logout', (req, res, next) => {
-  req.logout(); //delets the user from the session
-  res.redirect('/protected-route');
- });
- router.get('/login-success', (req, res, next) => {
-  res.send('<p>You successfully logged in. --> <a href="/protected-route">Go to protected route</a></p>');
- });
+// Thread Controller
+router.get("/", thread_controller.list_get);
+router.get("/threads/add", thread_controller.add_get);
+router.post("/threads/create", thread_controller.create_post);
+router.get("/threads/edit/:threadId", thread_controller.edit_get);
+router.post("/threads/update/:threadId", thread_controller.update_post);
+router.get("/threads/view/:threadId", thread_controller.view_get);
 
- router.get('/login-failure', (req, res, next) => {
-  res.send('You entered the wrong password.');
- });
+// Comment Controller
+router.post("/comments/create/:threadId", comment_controller.create_post);
+router.get("/comments/edit/:commentId", comment_controller.edit_get);
+router.post("/comments/update/:threadId/:commentId", comment_controller.update_post);
 
+// // Good Controller
+router.post("/goods/thread_create/:threadId", good_controller.post_threadCreate);
+router.post("/goods/thread_destroy/:threadId", good_controller.post_threadDestroy);
+router.post("/goods/comment_create/:threadId/:commentId", good_controller.post_commentCreate);
+router.post("/goods/comment_destroy/:threadId/:commentId", good_controller.post_commentDestroy);
 
- router.get('/register', (req, res, next) => {
-  console.log("Inside get");
-  res.render('register')
+// // User Controller
+router.get("/users/view/:userId", user_controller.view_get);
+router.get("/register", user_controller.register_get)
+router.post("/register", user_controller.register_post)
+router.post("/mail_callback", user_controller.mailCallbackPost)
+router.get("/login", user_controller.loginGet)
+router.post("/login", user_controller.loginPost)
+router.get("/login-failure", user_controller.loginFailureGet)
+router.get("/post-mail-success", user_controller.mailSuccessGet)
+router.get("/logout", user_controller.logoutGet)
+router.get("/notAuthorized", user_controller.notAuthlizedPost);
+router.get("/mailCheckConfirm/:activateToken", user_controller.mailCheckConfirmGet);
+router.get("/mypage", user_controller.mypageGet)
 
- });
+// // Follow Controller
+router.get("/follows/:targetId", follow_controller.followGet);
 
-//  router.post('/register',userExists,(req,res,next)=>{
-//   console.log("Inside post");
-//   console.log(req.body.pw);
-//   const saltHash=genPassword(req.body.pw);
-//   console.log(saltHash);
-//   const salt=saltHash.salt;
-//   const hash=saltHash.hash;
-
-//   connection.query('Insert into users(username,hash,salt,isAdmin) values(?,?,?,0) ', [req.body.uname,hash,salt], function(error, results, fields) {
-//       if (error)
-//           {
-//               console.log("Error");
-//           }
-//       else
-//       {
-//          console.log("Successfully Entered");
-//      }
-
-//   });
-
-//   res.redirect('/login');
-//  });
-
-//  router.post('/login',passport.authenticate('local',{failureRedirect:'/login-failure',successRedirect:'/login-success'}));
-
-//  router.get('/protected-route',isAuth,(req, res, next) => {
-
-//   res.send('<h1>You are authenticated</h1><p><a href="/logout">Logout and reload</a></p>');
-//  });
-
-//  router.get('/admin-route',isAdmin,(req, res, next) => {
-
-//   res.send('<h1>You are admin</h1><p><a href="/logout">Logout and reload</a></p>');
-
-//  });
-
- router.get('/notAuthorized', (req, res, next) => {
-  console.log("Inside get");
-  res.send('<h1>You are not authorized to view the resource </h1><p><a href="/login">Retry Login</a></p>');
-
- });
- router.get('/notAuthorizedAdmin', (req, res, next) => {
-  console.log("Inside get");
-  res.send('<h1>You are not authorized to view the resource as you are not the admin of the page  </h1><p><a href="/login">Retry to Login as admin</a></p>');
-
- });
- router.get('/userAlreadyExists', (req, res, next) => {
-  console.log("Inside get");
-  res.send('<h1>Sorry This username is taken </h1><p><a href="/register">Register with different username</a></p>');
-
- });
 
 
 module.exports = router;

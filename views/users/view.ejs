@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <% var rootPath = '../'; %>
+  <%- include(rootPath + 'partials/header'); %>
+  <link rel="stylesheet" href="../stylesheets/style.css">
+<body>
+  <p><%= user[0].name %></p>
+  <p>
+    <% threads.forEach(thread => { %>
+      <h1 class="text-warning"><%= thread.title %></h1>
+      <p ><%= thread.content %></p>
+      <button><a href=<%= "/threads/view/" + thread.id %>>詳細ページを見る</a></button>
+
+    <% }); %>
+  </p>
+</body>
+</html>
